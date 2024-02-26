@@ -11,6 +11,7 @@ Then it will generate namespace in Hashicorp Vault, configure AppRole authentica
 
 ## Testing
 - Install minicube
+  https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-raft
 - Install and configure (namespaces, admin AppRole, etc.)  Hashicorp Vault
 - Install and configure Hashicorp Vault Secrets operator
 - Deploy operator with required parameters 
