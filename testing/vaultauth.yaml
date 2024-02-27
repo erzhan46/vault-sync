@@ -1,0 +1,12 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: approle-auth
+  namespace: yob-test2
+spec:
+  vaultConnectionRef: vaultconnection
+  method: appRole
+  mount: approle
+  appRole:
+    roleId: e4bf3f07-343e-1118-d2b0-11bc4311baec
+    secretRef: approle-secret
