@@ -1,4 +1,5 @@
 from kubernetes import client, config, watch
+from kubernetes.dynamic import DynamicClient
 import os
 import logging
 import hvac
@@ -35,10 +36,10 @@ def process_cr(event):
 
 # Watch vaultsync CR's for WATCH_TIMEOUT seconds
 def crd_watch():
-    apiClient = client.ApiClient()
-    customObjects = client.CustomObjectsApi(apiClient)
+    api_client = client.ApiClient()
+    crd_api = client.CustomObjectsApi(api_client)
     w = watch.Watch()
-    for event in w.stream(customObjects.list_cluster_custom_object, group="stable.example.com", version="v1alpha1", plural="vaultsyncs", 
+    for event in w.stream(crd_api.list_cluster_custom_object, group="stable.example.com", version="v1alpha1", plural="vaultsyncs", 
                           timeout_seconds=(os.environ.get("WATCH_TIMEOUT") if os.environ.get("WATCH_TIMEOUT") else global_watch_timeout)):
         logging.info("Checking vaultsync resource %s in namespace %s" % (event['object']['metadata']['name'], event['object']['metadata']['namespace']))
         process_cr(event)
@@ -46,7 +47,7 @@ def crd_watch():
 
 def main():
     # Set logging format
-    logging.basicConfig(format='%(asctime)s %(message)s', level=(logging.DEBUG if os.environ.get("DEBUG") else logging.INFO))
+    logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=(logging.DEBUG if os.environ.get("DEBUG") else logging.INFO))
 
     # Assuming this script runs as K8S pod or kubeconfig is authenticated to cluster
     config.load_kube_config()
