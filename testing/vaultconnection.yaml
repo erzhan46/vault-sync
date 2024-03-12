@@ -1,0 +1,7 @@
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vaultconnection
+  namespace: yob-test2
+spec:
+  address: 'http://vault.default.svc.cluster.local:8200'

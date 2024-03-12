@@ -1,0 +1,8 @@
+apiVersion: stable.example.com/v1alpha1
+kind: VaultSync
+metadata:
+  name: app-test
+spec:
+  application: app-test
+  vaultnamespace: admin/infrapoc/app-test
+  token: TEST123
